@@ -4,7 +4,7 @@ import Exam from '../views/Exam'
 
 const routes = [
   {
-    path: '/',
+    path: '/login',
     name: 'login',
     component: Login
   },

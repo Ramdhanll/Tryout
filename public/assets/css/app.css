@@ -1,6 +1,7 @@
 body {
   margin: 0;
   padding: 0;
+  overflow: hidden;
 }
 
 .side-left {
@@ -67,7 +68,7 @@ body {
 .side-right img {
   width: 600px;
   height: 500px;
-  margin-left: -300px;
+  margin-left: -305px;
   /* Extra small devices (phones, 600px and down) */
 }
 
