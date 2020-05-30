@@ -8,15 +8,15 @@
               <div class="border-form">
                 <form action="dashboad.html">
                   <div class="form-group">
-                    <label for="">Username</label>
-                    <input type="text"
-                      class="form-control" name="" aria-describedby="helpId" placeholder="">
+                    <label for="">Email</label>
+                    <input type="email"
+                      class="form-control" name="" aria-describedby="helpId" placeholder="" v-model="form_login.email">
                     <small id="helpId" class="form-text text-muted"></small>
                   </div>
                   <div class="form-group">
                     <label for="">Password</label>
                     <input type="password"
-                      class="form-control" name="" aria-describedby="helpId" placeholder="">
+                      class="form-control" name="" aria-describedby="helpId" placeholder="" v-model="form_login.password">
                     <small id="helpId" class="form-text text-muted"></small>
                   </div>
                   <div class="form-check">
@@ -25,9 +25,16 @@
                         Remember Me
                     </label>
                   </div>
-                  <button class="btn-login btn btn-primary" >Log In</button>
+                  <div class="d-flex">
+                    <button type="button" class="btn-login btn btn-primary d-flex justify-content-center" @click="login()">
+                    <div>Login</div>
+                    <div v-show="loading">
+                      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin: auto; background: none; display: block; shape-rendering: auto;" width="25px" height="25px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid"> <rect x="17.5" y="29.6903" width="15" height="40.6194" fill="#f0efef">   <animate attributeName="y" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.5;1" values="18;30;30" keySplines="0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.2s"></animate>   <animate attributeName="height" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.5;1" values="64;40;40" keySplines="0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.2s"></animate> </rect> <rect x="42.5" y="29.0819" width="15" height="41.8363" fill="#e1e1e1">   <animate attributeName="y" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.5;1" values="20.999999999999996;30;30" keySplines="0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.1s"></animate>   <animate attributeName="height" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.5;1" values="58.00000000000001;40;40" keySplines="0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.1s"></animate> </rect> <rect x="67.5" y="27.8997" width="15" height="44.2005" fill="#c9cac7">   <animate attributeName="y" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.5;1" values="20.999999999999996;30;30" keySplines="0 0.5 0.5 1;0 0.5 0.5 1"></animate>   <animate attributeName="height" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.5;1" values="58.00000000000001;40;40" keySplines="0 0.5 0.5 1;0 0.5 0.5 1"></animate> </rect> </svg>
+                    </div>
+                  </button>
                   <button type="button" class="btn-register btn btn-success" @click="showModalRegister()">Register</button>
                   <!-- <button type="button" @click="log()">TESTING</button> -->
+                  </div>
                 </form>
               </div>
             </div>
@@ -80,7 +87,7 @@
             <div class="form-group d-flex justify-content-center">
               <button class="btn-register btn btn-success btn-block d-flex" @click="register()">
                 <div>Register</div>
-                <div v-show="loading">
+                <div v-show="loading_register">
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin: auto; background: none; display: block; shape-rendering: auto;" width="25px" height="25px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid"> <rect x="17.5" y="29.6903" width="15" height="40.6194" fill="#f0efef">   <animate attributeName="y" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.5;1" values="18;30;30" keySplines="0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.2s"></animate>   <animate attributeName="height" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.5;1" values="64;40;40" keySplines="0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.2s"></animate> </rect> <rect x="42.5" y="29.0819" width="15" height="41.8363" fill="#e1e1e1">   <animate attributeName="y" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.5;1" values="20.999999999999996;30;30" keySplines="0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.1s"></animate>   <animate attributeName="height" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.5;1" values="58.00000000000001;40;40" keySplines="0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.1s"></animate> </rect> <rect x="67.5" y="27.8997" width="15" height="44.2005" fill="#c9cac7">   <animate attributeName="y" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.5;1" values="20.999999999999996;30;30" keySplines="0 0.5 0.5 1;0 0.5 0.5 1"></animate>   <animate attributeName="height" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.5;1" values="58.00000000000001;40;40" keySplines="0 0.5 0.5 1;0 0.5 0.5 1"></animate> </rect> </svg>
                 </div>
               </button>
@@ -96,6 +103,10 @@
 export default {
   data(){
     return{
+      form_login : {
+        email: '',
+        password: ''
+      },
       form_register : {
         name: '',
         email: '',
@@ -104,7 +115,8 @@ export default {
         password_confirmation : ''
       },
       errors_register : [],
-      loading: false
+      loading: false,
+      loading_register: false
     }
   }
   ,
@@ -114,14 +126,22 @@ export default {
     },
     register() {
       this.errors_register = [];
-      this.loading = true;
+      this.loading_register = true;
       this.$store.dispatch('register', this.form_register)
         .then(() => {
-          this.loading = false;
+          this.$store.dispatch('retrieveToken',{
+            email : this.form_register.email,
+            password : this.form_register.password,
+          })
+          this.loading_register = false;
           this.$refs['register-modal'].hide();
+          
+          this.form_register = [];
+
+          this.$router.push({name: 'profile'});
           this.$Toast.fire({
             icon: 'success',
-            title: 'Register berhasil, silahkan login'
+            title: 'Register berhasil, silahkan update profile anda!'
           })
         })
         .catch(e => {
@@ -129,12 +149,29 @@ export default {
             icon: 'error',
             title: 'Register gagal, coba lagi'
           })
-          this.loading = false;
+          this.loading_register = false;
           this.errors_register = e.response.data.errors;
         });
     },
-    log() {
-      this.$store.dispatch('getExams');
+    login() {
+      this.loading = true;
+      this.$store.dispatch('retrieveToken', this.form_login)
+        .then((response) => {
+          this.$Toast.fire({
+            icon: 'success',
+            title: 'Login berhasil'
+          })
+          this.loading = false;
+          console.log(response.response);
+        })
+        .catch(e => {
+          this.loading = false;
+          this.$Toast.fire({
+            icon: 'error',
+            title: 'Login gagal, coba lagi'
+          })
+          console.log(e.response);
+        })
     }
   },
 }

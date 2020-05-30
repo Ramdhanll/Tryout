@@ -16,7 +16,7 @@
               <router-link :to="{name : 'dashboard'}" class="nav-link ">Result</router-link>
             </li>
             <li class="nav-item ">
-              <router-link :to="{name : 'dashboard'}" class="nav-link ">Profile</router-link>
+              <router-link :to="{name : 'profile'}" class="nav-link ">Profile</router-link>
             </li>
             <li class="nav-item ">
               <router-link :to="{name : 'dashboard'}" class="nav-link ">Logout</router-link>
@@ -34,6 +34,8 @@ export default {
 }
 </script>
 
-<style>
-
-</style>
+<style scoped>
+  nav {
+    position: sticky;
+  }
+</style>>

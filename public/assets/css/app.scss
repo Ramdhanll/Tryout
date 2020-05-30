@@ -1,7 +1,7 @@
 body {
   margin: 0;
   padding: 0;
-  overflow: hidden;
+  // overflow: hidden;
 }
 
 // Login 
@@ -121,10 +121,16 @@ body {
   background-color: #413D60;
   color: white;
   text-align: right;
-  height: 80px;
+  height: 50px;
   margin-left: auto;
   line-height: 80px;
   font-size: bold;
+
+  .container {
+    p {
+      margin-top: -13px;
+    }
+  }
 }
 
 // Question
