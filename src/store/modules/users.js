@@ -26,13 +26,44 @@ const actions = {
       axios.post('login', data)
         .then(response => {
           localStorage.setItem('access_token', response.data.access_token);
-          commit('retrieveToken', response.data);
           resolve(response);
+          commit;
         })
         .catch(e => {
           reject(e);
         })
     })
+  },
+  loadUser({state}) {
+    return new Promise((resolve, reject) => {
+      axios.get('user', {
+        headers: {
+          'Authorization' : `Bearer ${state.token}`
+        }
+      })
+      .then(response => {
+        resolve(response);
+      })
+      .catch(e => reject(e));
+    });
+  },
+  updateUser({commit}, data) {
+    return new Promise((resolve, reject) => {
+      axios.post('set-student',{
+        data,
+        headers: {
+          'Authorization' : `Bearer ${state.token}`
+        }
+      })
+      .then(response => {
+        console.log(response);
+        resolve(response);
+        commit;
+      })
+      .catch(e => {
+        reject(e);
+      })
+    });
   }
 };
 
