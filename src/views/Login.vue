@@ -156,21 +156,20 @@ export default {
     login() {
       this.loading = true;
       this.$store.dispatch('retrieveToken', this.form_login)
-        .then((response) => {
+        .then(() => {
           this.$Toast.fire({
             icon: 'success',
             title: 'Login berhasil'
           })
           this.loading = false;
-          console.log(response.response);
+          this.$router.push({name : 'dashboard'});
         })
-        .catch(e => {
+        .catch(() => {
           this.loading = false;
           this.$Toast.fire({
             icon: 'error',
             title: 'Login gagal, coba lagi'
           })
-          console.log(e.response);
         })
     }
   },

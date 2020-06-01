@@ -5,12 +5,14 @@ import users from './modules/users';
 
 Vue.use(Vuex);
 
-// const debug = process.env.NODE_ENV !== 'production'
 
 export default new Vuex.Store({
+  state : {
+    login : ''
+  },
   modules: {
-    exams,
-    users
+    exams : exams,
+    users : users
   },
   // strict: debug,
 });
