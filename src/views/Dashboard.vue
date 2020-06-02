@@ -3,7 +3,7 @@
     <Navbar/>
     {{ timestamp }}
     <div class="container mt-5">
-      <div class="row ">
+      <div class="row d-flex justify-content-center">
         
         <div class=" col-md-4 mb-4" v-for="(exam, index) in exams" :key="index">
           <div class="card">
@@ -14,6 +14,7 @@
               <li class="list-group-item">Durasi {{ exam.duration }} Menit</li>
               <li class="list-group-item">Jumlah Soal : {{ exam.total_question}} Soal</li>
               <li class="list-group-item">Peserta mendaftar : {{ exam.enroll_exam_count }} orang</li>
+              <li class="list-group-item">Waktu Pelaksanaan : {{ exam.date_time }}</li>
               <li class="list-group-item">
                 <button v-if="!examRegistered.includes(exam.id)" class="btn btn-success py-2 px-4 d-flex justify-content-center align-items-center m-auto" type="button" @click.prevent="enroll_exam(exam.id)">
                   <div>Daftar Ujian</div>
@@ -99,7 +100,6 @@ export default {
       this.$store.dispatch('registered')
         .then(response => {
           response.data.forEach(((item, index) => {
-            console.log(item['exam_id']);
             index;
             this.examRegistered.push(item['exam_id']);
 
@@ -119,6 +119,10 @@ export default {
   mounted() {
     this.loadExams();
     this.registered();
+  },
+  updated() {
+  },
+  computed: {
   },
 }
 </script>

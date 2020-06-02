@@ -54,7 +54,24 @@ const actions = {
         reject(e);
       })
     })
-  }
+  },
+  loadResult({commit, rootState,}) {
+    return new Promise((resolve, reject) => {
+      axios.get('get-result',
+      { 
+        headers: {
+          'Authorization' : `Bearer ${rootState.users.token}`
+        }
+      })
+      .then(response => {
+        commit;
+        resolve(response);
+      })
+      .catch(e => {
+        reject(e);
+      })
+    })
+  },
 };
 
 const mutations = {

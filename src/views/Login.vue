@@ -133,20 +133,33 @@ export default {
             email : this.form_register.email,
             password : this.form_register.password,
           })
-          this.loading_register = false;
-          this.$refs['register-modal'].hide();
-          
-          this.form_register = [];
+          .then(() => {
+            this.loading_register = false;
+            this.$refs['register-modal'].hide();
+            
+            this.form_register = [];
 
-          this.$router.push({name: 'profile'});
-          this.$Toast.fire({
-            icon: 'success',
-            title: 'Register berhasil, silahkan update profile anda!'
+            this.$router.push({name: 'profile'});
+            this.$Toast.fire({
+              icon: 'success',
+              title: 'Register berhasil, silahkan update profile anda!'
+            })
+            .catch(e => {
+              this.$Toast.fire({
+                icon: 
+                'error',
+                title: 'Register gagal, coba lagi'
+              })
+              this.loading_register = false;
+              this.errors_register = e.response.data.errors;
+            });
+
           })
         })
         .catch(e => {
           this.$Toast.fire({
-            icon: 'error',
+            icon: 
+            'error',
             title: 'Register gagal, coba lagi'
           })
           this.loading_register = false;

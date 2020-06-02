@@ -13,7 +13,7 @@
               <router-link :to="{name : 'dashboard'}" class="nav-link ">Dashboard</router-link>
             </li>
             <li class="nav-item ">
-              <router-link :to="{name : 'dashboard'}" class="nav-link ">Result</router-link>
+              <router-link :to="{name : 'result'}" class="nav-link ">Result</router-link>
             </li>
             <li class="nav-item ">
               <router-link :to="{name : 'profile'}" class="nav-link ">Profile</router-link>
