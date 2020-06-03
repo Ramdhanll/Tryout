@@ -72,6 +72,25 @@ const actions = {
       })
     })
   },
+  loadQuestion({commit, rootState,}, slug) {
+    return new Promise((resolve, reject) => {
+      axios.post('get-question',{
+        slug
+      },
+      { 
+        headers: {
+          'Authorization' : `Bearer ${rootState.users.token}`
+        }
+      })
+      .then(response => {
+        commit;
+        resolve(response);
+      })
+      .catch(e => {
+        reject(e);
+      })
+    })
+  },
 };
 
 const mutations = {

@@ -10,38 +10,16 @@
       <div class="container mt-5">
         <div class="row">
           <div class="section-left col-md-6">
-            <p class="title-number-question">Soal 1</p>
-            <p class="question">Pak Arif membeli motor dengan harga Rp15.000.000,00 dan dijual lagi dengan harga Rp16.500.000,00. Berapa perentase keuntungan yang diperoleh?</p>
+            <p class="title-number-question">Soal {{ questionSelect.number }}</p>
+            <p class="question">
+              {{ questionSelect.question_title }}
+            </p>
             <ul>
-              <li>
+              <li v-for="(option, index) in questionSelect.option" :key="index">
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input type="radio" class="form-check-input" name="answer" id="" value="checdkedValue" >
-                      A. 1%
-                  </label>
-                </div>
-              </li>
-              <li>
-                <div class="form-check">
-                  <label class="form-check-label">
-                    <input type="radio" class="form-check-input" name="answer" id="" value="checkedValue" >
-                      B. 1.5%
-                  </label>
-                </div>
-              </li>
-              <li>
-                <div class="form-check">
-                  <label class="form-check-label">
-                    <input type="radio" class="form-check-input" name="answer" id="" value="checkedValue" >
-                      C. 10%
-                  </label>
-                </div>
-              </li>
-              <li>
-                <div class="form-check">
-                  <label class="form-check-label">
-                    <input type="radio" class="form-check-input" name="answer" id="" value="checkedValue" >
-                      D. 15%
+                    <input type="radio" class="form-check-input" name="answer" id="" :value="option.id" v-model="user_answer">
+                    {{ alphabets[index]  + " " + option.option_title}}
                   </label>
                 </div>
               </li>
@@ -54,56 +32,14 @@
           <div class="section-right col-md-6">
             <h3 class="mb-3 ml-1">Daftar Soal</h3>
             <div class="number-question">
-              <div class="box">1</div>
-              <div class="box">2</div>
-              <div class="box">3</div>
-              <div class="box">4</div>
-              <div class="box">5</div>
-              <div class="box">6</div>
-              <div class="box">7</div>
-              <div class="box">8</div>
-              <div class="box">9</div>
-              <div class="box">10</div>
-              <div class="box">11</div>
-              <div class="box">12</div>
-              <div class="box">13</div>
-              <div class="box">14</div>
-              <div class="box">15</div>
-              <div class="box">16</div>
-              <div class="box">17</div>
-              <div class="box">18</div>
-              <div class="box">19</div>
-              <div class="box">20</div>
-              <div class="box">21</div>
-              <div class="box">22</div>
-              <div class="box">23</div>
-              <div class="box">24</div>
-              <div class="box">25</div>
-              <div class="box">26</div>
-              <div class="box">27</div>
-              <div class="box">28</div>
-              <div class="box">29</div>
-              <div class="box">30</div>
-              <div class="box">31</div>
-              <div class="box">32</div>
-              <div class="box">33</div>
-              <div class="box">34</div>
-              <div class="box">35</div>
-              <div class="box">36</div>
-              <div class="box">37</div>
-              <div class="box">38</div>
-              <div class="box">39</div>
-              <div class="box">40</div>
-              <div class="box">41</div>
-              <div class="box">42</div>
-              <div class="box">43</div>
-              <div class="box">44</div>
-              <div class="box">45</div>
-              <div class="box">46</div>
-              <div class="box">47</div>
-              <div class="box">48</div>
-              <div class="box">49</div>
-              <div class="box">50</div>
+              <div class="box" 
+                  v-for="(question, index) in exam.question" :key="index"
+                  @click="showQuestion(question,index)"
+                  ref="number"
+                  :class="index == 0 ? 'active' : ''"
+                  >
+                {{ index + 1 }}
+              </div>
             </div>
             <div class="note">
               <div class="box-answered"></div>
@@ -128,10 +64,55 @@ export default {
   components : {
     Navbar, Footer
   },
+  data() {
+    return {
+      exam : [],
+      questionSelect : [],
+      alphabets : ['A','B','C','D'],
+      indexBefore : 0,
+      user_answer : ''
+    }
+  },
+  methods: {
+    loadQuestion() {
+      this.$store.dispatch('loadQuestion', this.$route.params.slug)
+        .then(response => {
+          this.exam = response.data[0].exam;
+          this.showQuestion(this.exam.question[0], 0);
+        })
+        .catch(e => {
+          console.log(e);
+        })
+    },
+    showQuestion(question, index) {
+      this.clearDot();
+      this.questionSelect = [];
+      this.questionSelect = question;
+      this.questionSelect['number'] = index + 1;
+      let indexNow = index;
+      let btnNow = this.$refs['number'][indexNow]; //0
+      btnNow.classList.add('active');
 
+      if(indexNow != this.indexBefore) {
+        let btnBefore = this.$refs['number'][this.indexBefore];
+        btnBefore.classList.remove('active')
+      }
+      this.indexBefore = indexNow;
+    },
+    clearDot() {
+    var ele = document.getElementsByName("answer");
+    for(var i=0;i<ele.length;i++)
+        ele[i].checked = false;
+    }
+  },
+  mounted() {
+    this.loadQuestion();
+  }
 }
 </script>
 
 <style>
-
+.active {
+  background-color: pink !important;
+}
 </style>
