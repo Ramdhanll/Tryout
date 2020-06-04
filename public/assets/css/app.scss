@@ -157,6 +157,10 @@ body {
     background-color: #218A1F;
     font-weight: bold;
     color: #f4f4f4;
+
+    &:active {
+      background-color: rgb(73, 167, 71);
+    }
   }
   .btn-bepassed {
     background-color: #BEC101;

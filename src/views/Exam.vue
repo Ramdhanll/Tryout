@@ -18,15 +18,20 @@
               <li v-for="(option, index) in questionSelect.option" :key="index">
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input type="radio" class="form-check-input" name="answer" id="" :value="option.id" v-model="user_answer">
+                    <input type="radio" 
+                          class="form-check-input" 
+                          name="answer"
+                          :value="option.option_number" 
+                          v-model="user_answer"
+                          >
                     {{ alphabets[index]  + " " + option.option_title}}
                   </label>
                 </div>
               </li>
             </ul>
   
-            <button class="btn btn-select py-2 px-4 mt-5">Pilih dan Lanjutkan</button>
-            <button class="btn btn-bepassed py-2 px-4 mt-5 ml-2">Dilewati</button>
+            <button class="btn btn-select py-2 px-4 mt-5" @click="addAnswer()">Pilih dan Lanjutkan</button>
+            <button class="btn btn-bepassed py-2 px-4 mt-5 ml-2" @click="passed()">Dilewati</button>
   
           </div>
           <div class="section-right col-md-6">
@@ -70,7 +75,10 @@ export default {
       questionSelect : [],
       alphabets : ['A','B','C','D'],
       indexBefore : 0,
-      user_answer : ''
+      user_answer : '',
+      stok_answer: JSON.parse(localStorage.getItem("stok_answer")) || [],
+      indexBtnAnswered : JSON.parse(localStorage.getItem("index_btn_answered")) || [],
+      indexBtnPassed : JSON.parse(localStorage.getItem("index_btn_passed")) || [],
     }
   },
   methods: {
@@ -85,10 +93,28 @@ export default {
         })
     },
     showQuestion(question, index) {
-      this.clearDot();
+      this.user_answer = '';
       this.questionSelect = [];
       this.questionSelect = question;
       this.questionSelect['number'] = index + 1;
+      let question_id = this.questionSelect.id;
+      let check = this.exists(this.stok_answer, question_id);
+
+      if (check == true) {
+        for (let i = 0; i < this.stok_answer.length; i++) {
+          if (this.stok_answer[i][0] == question_id) {
+            this.user_answer = this.stok_answer[i][1];
+          }
+        }
+      } else {
+        this.user_answer = '';
+      }
+
+
+      if (!this.questionSelect.selected == '') {
+        this.user_answer = this.questionSelect.selected;
+      }
+
       let indexNow = index;
       let btnNow = this.$refs['number'][indexNow]; //0
       btnNow.classList.add('active');
@@ -103,16 +129,84 @@ export default {
     var ele = document.getElementsByName("answer");
     for(var i=0;i<ele.length;i++)
         ele[i].checked = false;
+    },
+    exists(arr, item) {
+      for (let i = 0; i < arr.length; i++) {
+        if (arr[i][0] == item) {
+          return true;
+        }
+      }
+      return false;
+    },
+    addAnswer() {
+      let number = this.questionSelect.number - 1;
+      let question_id = this.questionSelect.id;
+      let answer = this.user_answer;
+      let check = this.exists(this.stok_answer, question_id);
+      if (question_id == '' || answer == '') {
+        alert('belum diisi !');
+        return;
+      }else if (check == true) {
+        this.stok_answer[number][1] = answer;
+      } else {
+        this.stok_answer.push([question_id, answer]);
+        let btnAnswered = this.$refs['number'][number];
+        btnAnswered.classList.add('answered');
+        this.indexBtnAnswered.push(number);
+        localStorage.setItem('index_btn_answered', JSON.stringify(this.indexBtnAnswered));
+        this.questionSelect['selected'] = answer;
+      }
+
+      if (this.exam.question[number + 1] == undefined) {
+        alert('dah paling akhir');
+      } else {
+
+        this.showQuestion(this.exam.question[number + 1], number + 1);
+      }
+
+      localStorage.setItem('stok_answer', JSON.stringify(this.stok_answer));
+    },
+    passed() {
+      let number = this.questionSelect.number - 1;
+      let question_id = this.questionSelect.id;
+      let check = this.exists(this.stok_answer, question_id);
+      if (check == true) {
+        this.showQuestion(this.exam.question[number + 1], number + 1);
+        return;
+      } else {
+        let btnAnswered = this.$refs['number'][number];
+        btnAnswered.classList.add('passed');
+        this.indexBtnPassed.push(number);
+        localStorage.setItem('index_btn_passed', JSON.stringify(this.indexBtnPassed));
+      }
+        this.showQuestion(this.exam.question[number + 1], number + 1);
     }
   },
   mounted() {
     this.loadQuestion();
-  }
+  },
+  updated() {
+    for (let i = 0; i < this.indexBtnAnswered.length; i++) {
+      let btnAnswered = this.$refs['number'][this.indexBtnAnswered[i]];
+        btnAnswered.classList.add('answered');
+    }
+    for (let i = 0; i < this.indexBtnPassed.length; i++) {
+      let btnAnswered = this.$refs['number'][this.indexBtnPassed[i]];
+        btnAnswered.classList.add('passed');
+    }
+  },
 }
 </script>
 
 <style>
-.active {
+div .box.active {
   background-color: pink !important;
+}
+.box.answered {
+  background-color: #218A1F !important;
+}
+
+.passed {
+  background-color: #BEC101 !important;
 }
 </style>

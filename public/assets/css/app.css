@@ -84,7 +84,6 @@ body {
 }
 
 .navbar {
-  position: fixed;
   background-color: #413D60 !important;
   color: #f4f4f4 !important;
 }
@@ -167,6 +166,10 @@ body {
   background-color: #218A1F;
   font-weight: bold;
   color: #f4f4f4;
+}
+
+.section-main .btn-select:active {
+  background-color: #49a747;
 }
 
 .section-main .btn-bepassed {
