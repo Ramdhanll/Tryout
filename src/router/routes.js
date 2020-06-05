@@ -3,6 +3,7 @@ import Dashboard from '../views/Dashboard'
 import Profile from '../views/Profile'
 import Exam from '../views/Exam'
 import Result from '../views/Result'
+import About from '../views/About'
 
 const routes = [
   {
@@ -33,6 +34,11 @@ const routes = [
     path: '/result',
     name: 'result',
     component: Result
+  },
+  {
+    path: '/about',
+    name: 'about',
+    component: About
   },
 
 ]

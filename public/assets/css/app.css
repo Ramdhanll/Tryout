@@ -178,6 +178,12 @@ body {
   color: #f4f4f4;
 }
 
+.section-main .btn-save {
+  background-color: #413d60;
+  font-weight: bold;
+  color: #f4f4f4;
+}
+
 .section-main ul {
   list-style: none;
 }

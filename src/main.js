@@ -6,10 +6,11 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import store from './store'
 import Swal from 'sweetalert2'
-
+import VueCountdownTimer from 'vuejs-countdown-timer'
 Vue.config.productionTip = false
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
+Vue.use(VueCountdownTimer)
 
 const Toast = Swal.mixin({
   toast: true,
@@ -24,6 +25,7 @@ const Toast = Swal.mixin({
 })
 
 Vue.prototype.$Toast = Toast;
+Vue.prototype.$Swal = Swal;
 Vue.prototype.$Fire = new Vue();
 
 new Vue({

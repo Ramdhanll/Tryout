@@ -28,11 +28,13 @@
                   <td>{{ exam.exam.title }}</td>
                   <td>{{ exam.exam.date_time }}</td>
                   <td>{{ exam.exam.total_question }}</td>
-                  <td><span v-html="setStatus(exam.exam.status)"></span></td>
-                  <td>{{ exam.exam.result }}</td>
+                  <td><span v-html="setStatus(exam.attendance_status)"></span></td>
+                  <td v-if="exam.attendance_status == 'pending'">Null</td>
+                  <td v-if="exam.attendance_status == 'completed'">{{ exam.exam.result }}</td>
                   <td>
-                    <div v-if="!exam.exam.status == 'started'" class="badge badge-success py-2 px-2">Detail</div>
-                    <router-link :to="{path : `exam/${exam.exam.slug}`}" class="btn btn-danger" v-if="exam.exam.status == 'started'">Mulai Kerjakan!</router-link>
+                    <router-link  :to="{path : `exam/${exam.exam.slug}`}" class="btn btn-danger text-black" v-if="exam.exam.status == 'started' && exam.attendance_status == 'pending'">Mulai Kerjakan!</router-link>
+                    <div class="badge badge-warning badge-status text-black" v-if="exam.exam.status == 'pending' && exam.attendance_status == 'pending'">Pending</div>
+                    <router-link  :to="{path : `/`}" class="btn btn-primary text-black" v-if="exam.attendance_status == 'completed'">Detail</router-link>
                     
                   </td>
                 </tr>
@@ -70,11 +72,11 @@ export default {
     },
     setStatus(status) {
       if (status == 'pending') {
-        return '<div class="badge badge-warning py-4 px-4">Pending</div>';
+        return '<div class="badge-status badge badge-warning">Pending</div>';
       } else if (status == 'started') {
-        return '<div class="badge badge-warning py-2 px-4">Started</div>';
+        return '<div class="badge-status badge badge-warning">Started</div>';
       }else if (status == 'completed') {
-        return '<div class="badge badge-success py-2 px-2">Completed</div>';
+        return '<div class="badge-status badge badge-success">Completed</div>';
       }
     }
   },
@@ -88,5 +90,9 @@ export default {
 </script>
 
 <style>
-
+div.badge-status {
+  font-size: 15px !important;
+  padding: 11px 20px 11px 20px !important;
+  font-weight: 300;
+}
 </style>

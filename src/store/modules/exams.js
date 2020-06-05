@@ -91,6 +91,26 @@ const actions = {
       })
     })
   },
+  storeAnswers({commit, rootState}, data) {
+    return new Promise((resolve, reject) => {
+      axios.post('set-answer',{
+        exam_id : data.exam_id,
+        user_answers : data.stok_answers
+      },
+      { 
+        headers: {
+          'Authorization' : `Bearer ${rootState.users.token}`
+        }
+      })
+      .then(response => {
+        commit;
+        resolve(response);
+      })
+      .catch(e => {
+        reject(e);
+      })
+    })
+  }
 };
 
 const mutations = {

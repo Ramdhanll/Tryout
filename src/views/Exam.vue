@@ -32,6 +32,7 @@
   
             <button class="btn btn-select py-2 px-4 mt-5" @click="addAnswer()">Pilih dan Lanjutkan</button>
             <button class="btn btn-bepassed py-2 px-4 mt-5 ml-2" @click="passed()">Dilewati</button>
+            <button class="btn btn-save py-2 px-4 mt-5 ml-2" @click="storeAnswer()">Submit</button>
   
           </div>
           <div class="section-right col-md-6">
@@ -146,8 +147,12 @@ export default {
       if (question_id == '' || answer == '') {
         alert('belum diisi !');
         return;
-      }else if (check == true) {
-        this.stok_answer[number][1] = answer;
+      }else if (check == true) { 
+        for (let i = 0; i < this.stok_answer.length; i++) {
+          if (this.stok_answer[i][0] == question_id) {
+            this.stok_answer[i][1] = answer;
+          }
+        }
       } else {
         this.stok_answer.push([question_id, answer]);
         let btnAnswered = this.$refs['number'][number];
@@ -179,7 +184,52 @@ export default {
         this.indexBtnPassed.push(number);
         localStorage.setItem('index_btn_passed', JSON.stringify(this.indexBtnPassed));
       }
-        this.showQuestion(this.exam.question[number + 1], number + 1);
+      this.showQuestion(this.exam.question[number + 1], number + 1);
+    },
+    storeAnswer() {
+      this.$Swal.fire({
+        title: 'Simpan semua jawaban ?',
+        text: "Pastikan jawaban telah diisi semua!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yaps, Kirim!'
+      }).then((result) => { 
+        if (result.value) {
+          this.$store.dispatch('storeAnswers', {
+          exam_id : this.exam.id,
+          stok_answers : this.stok_answer
+        })
+          .then(() => {
+            localStorage.removeItem('stok_answer');
+            localStorage.removeItem('index_btn_passed');
+            localStorage.removeItem('index_btn_answered');
+            this.$Swal.fire(
+              'Berhasil!',
+              'Jawaban berhasil disimpan.',
+              'success'
+            )
+            this.$router.push({name : 'result'});
+          })
+          .catch(()=> {
+            this.$Swal.fire(
+              'Gagal!',
+              'Jawaban gagal disimpan.',
+              'error'
+            )
+          })
+        }
+        
+      })
+      .catch(() => {
+        this.$Swal.fire(
+              'Gagal!',
+              'Jawaban gagal disimpan.',
+              'error'
+            )
+      })
+      
     }
   },
   mounted() {
