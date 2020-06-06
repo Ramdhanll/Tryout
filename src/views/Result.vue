@@ -17,6 +17,7 @@
                 <th>Judul</th>
                 <th>Waktu Pelaksanaan</th>
                 <th>Total Pertanyaan</th>
+                <th>Durasi</th>
                 <th>Status</th>
                 <th>Nilai</th>
                 <th>Action</th>
@@ -28,6 +29,7 @@
                   <td>{{ exam.exam.title }}</td>
                   <td>{{ exam.exam.date_time }}</td>
                   <td>{{ exam.exam.total_question }}</td>
+                  <td>{{ exam.exam.duration }} Menit</td>
                   <td><span v-html="setStatus(exam.attendance_status)"></span></td>
                   <td v-if="exam.attendance_status == 'pending'">Null</td>
                   <td v-if="exam.attendance_status == 'completed'">{{ exam.exam.result }}</td>

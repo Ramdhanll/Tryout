@@ -2,9 +2,11 @@
   <div>
     <Navbar/>
 
-    <div class="box-timer">
-      <p class="timer">00 : 00 : 00</p>
-    </div>
+    <Counter 
+      :minute="exam.duration"
+      :exam_id="exam.id"
+      :stok_answers="stok_answer"      
+    />
 
     <section class="section-main">
       <div class="container mt-5">
@@ -65,10 +67,11 @@
 <script>
 import Navbar from '../components/Navbar-tryout'
 import Footer from '../components/Footer-tryout'
+import Counter from '../components/Counter'
 
 export default {
   components : {
-    Navbar, Footer
+    Navbar, Footer, Counter
   },
   data() {
     return {

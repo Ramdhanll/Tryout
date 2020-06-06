@@ -4,6 +4,7 @@ body {
 }
 
 .side-left {
+  position: fixed;
   background-color: #413D60;
   height: 100vh;
   color: #f2f2f2;

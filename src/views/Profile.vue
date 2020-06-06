@@ -6,8 +6,8 @@
     <div class="container d-flex justify-content-center mt-3 mb-5">
       <div class="card">
         <div class="card-header text-center">
-          <img :src="user.detail_student.photo" class="rounded rounded-circle" width="100px">
-          <img :src="previewImage" class="rounded rounded-circle" width="100px">
+          <img v-if="!previewImage" :src="user.detail_student.photo" class="rounded rounded-circle" width="100px">
+          <img v-else :src="previewImage" class="rounded rounded-circle" width="100px">
         </div>
         <div class="card-body text-left">
           <div class="row">
