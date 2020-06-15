@@ -4,6 +4,7 @@ import Profile from '../views/Profile'
 import Exam from '../views/Exam'
 import Result from '../views/Result'
 import About from '../views/About'
+import Detail_exam from '../views/Detail_exam'
 
 const routes = [
   {
@@ -40,6 +41,11 @@ const routes = [
     name: 'about',
     component: About
   },
+  {
+    path: '/detail/:id',
+    name: 'detail_exam',
+    component: Detail_exam
+  }
 
 ]
 

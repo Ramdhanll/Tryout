@@ -1,7 +1,7 @@
 <template>
   <div v-if="loaded">
     <div class="box-timer">
-      <p class="timer">{{ displayHours }} : {{ displayMinutes }} : {{ displaySeconds }} </p>
+      <p class="timer">{{ displayDays }} : {{ displayHours }} : {{ displayMinutes }} : {{ displaySeconds }} </p>
     </div>
   </div>
 </template>
@@ -42,7 +42,7 @@ export default {
     },
     dayNow() {
       const date = new Date();
-      const day = date.getDay();
+      const day = date.getDate();
       return day;
     },
     hourNow() {
@@ -87,6 +87,10 @@ export default {
 
         localStorage.setItem('timer', end);
         
+        if (distance < 1) {
+          clearInterval(timer);
+        }
+
         if (distance < 1 ) {
           this.$Swal.fire(
             'Waktu Habis!',

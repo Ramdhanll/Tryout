@@ -110,6 +110,22 @@ const actions = {
         reject(e);
       })
     })
+  },
+  loadDetailExam({commit, rootState}, exam_id) {
+    return new Promise((resolve, reject) => {
+      axios.get(`get-detail-exam-result/${exam_id}`, {
+        headers: {
+          'Authorization' : `Bearer ${rootState.users.token}`
+        }
+      })
+      .then(response => {
+        resolve(response);
+        commit;
+      })
+      .catch(e => {
+        reject(e);
+      })
+    })
   }
 };
 

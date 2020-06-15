@@ -36,7 +36,7 @@
                   <td>
                     <router-link  :to="{path : `exam/${exam.exam.slug}`}" class="btn btn-danger text-black" v-if="exam.exam.status == 'started' && exam.attendance_status == 'pending'">Mulai Kerjakan!</router-link>
                     <div class="badge badge-warning badge-status text-black" v-if="exam.exam.status == 'pending' && exam.attendance_status == 'pending'">Pending</div>
-                    <router-link  :to="{path : `/`}" class="btn btn-primary text-black" v-if="exam.attendance_status == 'completed'">Detail</router-link>
+                    <router-link  :to="{path : `/detail/${exam.exam.id}`}" class="btn btn-primary text-black" v-if="exam.attendance_status == 'completed'">Detail</router-link>
                     
                   </td>
                 </tr>
