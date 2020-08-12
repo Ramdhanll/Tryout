@@ -24,7 +24,10 @@
               </tr>
               </thead>
               <tbody>
-                <tr v-for="(exam, index) in exams" :key="index">
+                <tr v-if="exams.length == 0" >
+                  <td colspan="8" class="text-center">Ujian belum terdaftar</td>
+                </tr>
+                <tr v-else v-for="(exam, index) in exams" :key="index">
                   <td>{{ index + 1 }}</td>
                   <td>{{ exam.exam.title }}</td>
                   <td>{{ exam.exam.date_time }}</td>
@@ -64,9 +67,11 @@ export default {
   },
   methods : {
     loadResult() {
+      this.$Spin.show();
       this.$store.dispatch('loadResult')
         .then(response => {
           this.exams = response.data
+          this.$Spin.hide();
         })
         .catch(e => {
           console.log(e);

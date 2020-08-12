@@ -4,13 +4,13 @@
     <section class="section-main">
       <div class="container mt-5 mb-5">
         <div class="row">
-          <div class="section-left col-md-12" v-for="(result, index) in results" :key="index">
-            <p class="title-number-question">Soal {{ index + 1 }}</p>
+          <div class="section-left col-md-12 mb-3" v-for="(result, index) in results" :key="index">
+            <p class="title-number-question font-weight-bold">Soal {{ index + 1 }}</p>
             <p class="question">
               {{ result.question.question_title}}
             </p>
             <ul class="">
-              <li v-for="(opt, index) in result.question.option" :key="index">
+              <li v-for="(opt, index) in result.question.option" :key="index" class="ml-4">
                 <div class="form-check">
                   <label class="form-check-label" :class="result.question.answer_option == index +  1 ? 'text-success': ''">
                     {{ alphabets[index] + " " + opt.option_title}}
@@ -47,13 +47,14 @@ export default {
   },
   methods : {
     loadDetailExam() {
+      this.$Spin.show();
       this.$store.dispatch('loadDetailExam', this.$route.params.id)
         .then(response => {
           this.results = response.data;
-          console.log(response);
+          this.$Spin.hide();
         })
-        .catch(e => {
-          console.log(e);
+        .catch(() => {
+          this.$Spin.hide();          
         })
     }
   },

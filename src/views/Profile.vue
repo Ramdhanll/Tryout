@@ -118,11 +118,13 @@ export default {
       }
     },
     loadUser(){
+      this.$Spin.show();
       this.$store.dispatch('loadUser')
         .then(response => {
           this.user = response.data[0];
+          this.$Spin.hide();
         });
-    },
+    }, 
     updateUser() {
       this.loading = true;
       this.$store.dispatch('updateUser', {
@@ -155,6 +157,7 @@ export default {
   },
   mounted(){
     this.loadUser();
+    // this.handleSpinShow();
   }
 }
 </script>

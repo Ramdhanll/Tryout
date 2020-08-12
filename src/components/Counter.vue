@@ -1,7 +1,7 @@
 <template>
   <div v-if="loaded">
     <div class="box-timer">
-      <p class="timer">{{ displayDays }} : {{ displayHours }} : {{ displayMinutes }} : {{ displaySeconds }} </p>
+      <p class="timer"> {{ displayHours }} : {{ displayMinutes }} : {{ displaySeconds }} </p>
     </div>
   </div>
 </template>
@@ -16,7 +16,7 @@ export default {
       displayMinutes: 0,
       displaySeconds: 0,
       loaded : false,
-      timer : localStorage.getItem('timer')
+      timer : '',
     }
   },
   computed: {
@@ -62,14 +62,15 @@ export default {
   methods: {
     formatNum : (num) => (num < 10 ? `0${num}` : num),
     showRemaining() {
-      const timer = setInterval(() => {
+      this.timer = setInterval(() => {
         const now = new Date();
         let end = '';
         if (localStorage.getItem('timer')) {
           end =  new Date (localStorage.getItem('timer'));
         } else {
           end =  new Date(this.yearNow, this.monthNow, this.dayNow, this.hourNow, this.minuteTimer, 0);
-        }
+          }
+        // end =  new Date(this.yearNow, this.monthNow, this.dayNow, this.hourNow, this.minuteTimer, 0);
 
         const distance = end.getTime() - now.getTime();
 
@@ -88,7 +89,7 @@ export default {
         localStorage.setItem('timer', end);
         
         if (distance < 1) {
-          clearInterval(timer);
+          clearInterval(this.timer);
         }
 
         if (distance < 1 ) {
@@ -101,7 +102,7 @@ export default {
           localStorage.removeItem('stok_answer');
           localStorage.removeItem('index_btn_passed');
           localStorage.removeItem('index_btn_answered');
-          clearInterval(timer);
+          clearInterval(this.timer);
           this.displayDays =  '00';
           this.displayHours =  '00';
           this.displayMinutes =  '00';
@@ -116,10 +117,36 @@ export default {
             })
         }
       }, 1000)
-    }
+    },
+    confirm () {
+        this.$Modal.confirm({
+            title: 'Title',
+            content: '<p>Content of dialog</p><p>Content of dialog</p>',
+            onOk: () => {
+                this.$Message.info('Clicked ok');
+            },
+            onCancel: () => {
+                this.$Message.info('Clicked cancel');
+            }
+        });
+    },
   },
   mounted() {
     this.showRemaining();
+  },
+  beforeDestroy() {
+    this.confirm()
+    clearInterval(this.timer);
+    localStorage.removeItem('timer')
+    localStorage.removeItem('stok_answer')
+    localStorage.removeItem('index_btn_answered')
+    this.$store.dispatch('storeAnswers', {
+              exam_id : this.exam_id,
+              stok_answers : this.stok_answers
+            })
+            .then(() => {
+              this.$router.push({name: 'result'})
+            })
   },
 }
 </script>

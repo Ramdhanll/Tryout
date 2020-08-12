@@ -1,11 +1,24 @@
 <template>
   <div>
     <Navbar/>
-    {{ timestamp }}
+    <div class="box-timer">
+      <div class="timer">{{ timestamp }}</div>
+    </div>
     <div class="container mt-5">
       <div class="row d-flex justify-content-center">
         
-        <div class=" col-md-4 mb-4" v-for="(exam, index) in exams" :key="index">
+        <div v-if="exams.length == 0" class=" col-md-4 mb-4">
+          <div class="card">
+            <div class="card-header">
+              Ujian Kosong
+            </div>
+            <div class="card-body">
+              Harap hubungi admin !
+            </div>
+          </div>
+        </div>
+
+        <div v-else class=" col-md-4 mb-4" v-for="(exam, index) in exams" :key="index">
           <div class="card">
             <div class="card-header">
               {{ exam.title }}
@@ -56,19 +69,20 @@ export default {
     enroll_exam(exam_id) {
       this.loading = exam_id;
       this.$store.dispatch('enroll_exam', exam_id)
-        .then(() => {
+        .then((response) => {
+          console.log(response);
+          this.examRegistered.push(response.data.exam_id);
           this.loading = null;
-          this.$Fire.$emit('loadExams');
-          this.$Toast.fire({
-            icon: 'success',
-            title: 'Berhasil mendaftar ujian!'
+          this.$Notice.success({
+            title: 'Success',
+            desc: 'Berhasil mendaftar ujian!',
           })
         })
         .catch(() => {
           this.loading = null;
-          this.$Toast.fire({
-            icon: 'error',
-            title: 'Gagal mendaftar ujian!'
+          this.$Notice.error({
+            title: 'Error',
+            desc: 'Gagal mendaftar ujian!',
           })
         })
     },
@@ -88,12 +102,14 @@ export default {
         this.timestamp = dateTime;
     },
     loadExams() {
+      this.$Spin.show();
       this.$store.dispatch('getExams')
         .then(response => {
           this.exams = response.data;
+          this.$Spin.hide();
         })
-        .catch(e => {
-          console.log(e);
+        .catch(() => {
+          this.$Spin.hide();
         })
     },
     registered() {
@@ -102,7 +118,6 @@ export default {
           response.data.forEach(((item, index) => {
             index;
             this.examRegistered.push(item['exam_id']);
-
           })
           );
         })

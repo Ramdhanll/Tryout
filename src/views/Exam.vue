@@ -11,13 +11,13 @@
     <section class="section-main">
       <div class="container mt-5">
         <div class="row">
-          <div class="section-left col-md-6">
+          <div class="section-left col-md-6 overflow-auto">
             <p class="title-number-question">Soal {{ questionSelect.number }}</p>
             <p class="question">
               {{ questionSelect.question_title }}
             </p>
             <ul>
-              <li v-for="(option, index) in questionSelect.option" :key="index">
+              <li v-for="(option, index) in questionSelect.option" :key="index" class="ml-5">
                 <div class="form-check">
                   <label class="form-check-label">
                     <input type="radio" 
@@ -73,6 +73,21 @@ export default {
   components : {
     Navbar, Footer, Counter
   },
+  beforeRouteLeave (to, from, next) {
+    console.log('asd')
+          this.$Modal.confirm({
+            title: 'Yakin ingin pindah?',
+            content: '<p>Ujian anda otomatis akan selesai!</p>',
+            okText: 'OK',
+            cancelText: 'Cancel',
+            onOk: () => {
+                next();
+            },
+            onCancel: () => {
+                next(false);
+            }
+        });
+		},
   data() {
     return {
       exam : [],
@@ -87,13 +102,15 @@ export default {
   },
   methods: {
     loadQuestion() {
+      this.$Spin.show();
       this.$store.dispatch('loadQuestion', this.$route.params.slug)
         .then(response => {
           this.exam = response.data[0].exam;
           this.showQuestion(this.exam.question[0], 0);
+          this.$Spin.hide();
         })
-        .catch(e => {
-          console.log(e);
+        .catch(() => {
+          this.$Spin.hide();          
         })
     },
     showQuestion(question, index) {
@@ -248,6 +265,12 @@ export default {
         btnAnswered.classList.add('passed');
     }
   },
+  // destroyed() {
+  //   console.log('destroyed')
+  // },
+  // beforeDestroy() {
+  //   console.log('beforedestroy')
+  // },
 }
 </script>
 
@@ -261,5 +284,9 @@ div .box.active {
 
 .passed {
   background-color: #BEC101 !important;
+}
+
+.section-left {
+  height: 430px;
 }
 </style>

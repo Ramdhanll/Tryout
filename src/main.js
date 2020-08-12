@@ -7,10 +7,14 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import store from './store'
 import Swal from 'sweetalert2'
 import VueCountdownTimer from 'vuejs-countdown-timer'
+import ViewUI from 'view-design';
+import 'view-design/dist/styles/iview.css';
+
 Vue.config.productionTip = false
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
 Vue.use(VueCountdownTimer)
+Vue.use(ViewUI)
 
 const Toast = Swal.mixin({
   toast: true,

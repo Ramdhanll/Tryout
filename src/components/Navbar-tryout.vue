@@ -19,7 +19,7 @@
               <router-link :to="{name : 'profile'}" class="nav-link ">Profile</router-link>
             </li>
             <li class="nav-item ">
-              <router-link :to="{name : 'dashboard'}" class="nav-link ">Logout</router-link>
+              <div class="nav-link" @click="logout()" style="cursor: pointer">Logout</div>
             </li>
           </ul>
         </div>
@@ -30,7 +30,19 @@
 
 <script>
 export default {
-
+  methods : {
+    logout() {
+      this.$Spin.show()
+      this.$store.dispatch('logout')
+        .then(() => {
+          this.$Spin.hide()
+          this.$router.push({name: 'login'});
+        })
+        .catch(() => {
+          this.$Spin.hide()
+        })
+    }
+  }
 }
 </script>
 

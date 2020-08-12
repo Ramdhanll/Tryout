@@ -27,7 +27,7 @@ const actions = {
         .then(response => {
           localStorage.setItem('access_token', response.data.access_token);
           resolve(response);
-          commit;
+          commit('retrieveToken', response.data.access_token);
         })
         .catch(e => {
           reject(e);
@@ -64,11 +64,34 @@ const actions = {
         reject(e);
       })
     });
+  },
+  logout({commit, rootState}) {
+    console.log(rootState.users.token);
+    return new Promise((resolve, reject) => {
+      axios.post('logout', {}, {
+        headers: {
+          'Authorization' : `Bearer ${rootState.users.token}`
+        }
+      })
+      .then(r => {
+        localStorage.removeItem('access_token');
+        commit('deletedToken');
+        resolve(r);
+      })
+      .catch(e => {
+        reject(e);
+      })
+    })
   }
 };
 
 const mutations = {
-  
+  deletedToken(state) {
+    state.token = null;
+  },
+  retrieveToken(state, token) {
+    state.token = token;
+  }
 };
 
 export default {
